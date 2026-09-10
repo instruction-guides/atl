@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Инструкция_АТЛ_дополненная — инструкция пользователя</title>
+<style>
+:root{
+  --bg:#f5f7fa; --panel:#ffffff; --ink:#1f2733; --mut:#66707d;
+  --acc:#b5264b; --acc2:#e14d6f; --line:#e3e8ef; --soft:#f0f3f8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.65}
+.layout{display:flex;min-height:100vh;align-items:stretch}
+/* ---------- sidebar ---------- */
+.sidebar{width:330px;flex:0 0 330px;background:var(--panel);border-right:1px solid var(--line);
+  position:sticky;top:0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.brand{padding:22px 20px 16px;border-bottom:1px solid var(--line);
+  background:linear-gradient(135deg,#7d1226,var(--acc));color:#fff}
+.brand-title{font-size:19px;font-weight:700;letter-spacing:.2px}
+.brand-sub{font-size:12px;opacity:.82;margin-top:3px;word-break:break-word}
+.searchbox{padding:12px 16px;border-bottom:1px solid var(--line)}
+.searchbox input{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--bg);outline:none}
+.searchbox input:focus{border-color:var(--acc)}
+.tree{flex:1;overflow-y:auto;padding:12px 10px}
+.tree ul{list-style:none;margin:0;padding:0}
+.tree ul.sub{padding-left:18px}
+.tree a{display:block;color:var(--ink);text-decoration:none;font-size:14.5px;padding:7px 10px;border-radius:7px;transition:.15s}
+.tree a:hover{background:var(--acc);color:#fff}
+.tree li{margin:1px 0}
+details>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14.5px;color:var(--ink)}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:'▶';font-size:10px;color:var(--acc);transition:.15s}
+details[open]>summary::before{content:'▼'}
+.tree-root{padding:0 10px 8px;border-bottom:1px dashed var(--line);margin-bottom:8px}
+.sidebar-foot{padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:8px}
+.btn{flex:1;padding:8px 6px;border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;color:var(--ink)}
+.btn:hover{border-color:var(--acc);color:var(--acc)}
+.burger{display:none}
+/* ---------- content ---------- */
+.content{flex:1;min-width:0;padding:40px 48px 60px}
+.hero{max-width:900px;margin:0 auto 34px;padding:26px 30px;background:linear-gradient(135deg,#fff,#fff 60%,#fbeef2);border:1px solid var(--line);border-radius:14px}
+.hero-kicker{color:var(--acc);font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase}
+.hero h1{margin:8px 0 6px;font-size:30px}
+.lead{color:#4a5568;margin:4px 0 14px}
+.hero-meta{display:flex;gap:10px;flex-wrap:wrap}
+.hero-meta span{background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 12px;font-size:12.5px;color:#4a5568}
+/* toc */
+.toc-block{max-width:900px;margin:6px auto 34px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 28px}
+.toc-block h2{margin:0 0 12px;font-size:19px}
+.toc-block ol{margin:0;padding-left:22px}
+.toc-block li{margin:5px 0}
+.toc-block a{color:var(--ink);text-decoration:none}
+.toc-block a:hover{color:var(--acc);text-decoration:underline}
+/* chapters */
+.chapter{max-width:900px;margin:0 auto 44px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px 34px}
+.ch-head{display:flex;gap:14px;align-items:baseline;border-bottom:2px solid #f0f3f8;padding-bottom:12px;margin-bottom:6px}
+.cn{background:var(--acc);color:#fff;font-weight:700;width:34px;height:34px;flex:0 0 34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.ch-head h2{margin:0;font-size:24px;line-height:1.3}
+.sub{margin-top:26px}
+.sub h3{font-size:18.5px;color:#7d1226;margin:0 0 10px;border-left:4px solid var(--acc);padding-left:10px}
+p{margin:10px 0}
+p.strong{font-weight:600}
+.fig{margin:16px 0;text-align:center}
+.fig img{max-width:100%;border:1px solid var(--line);border-radius:10px;cursor:zoom-in;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.caption{font-size:13.5px;color:#7a8699;text-align:center;margin:6px 0 14px}
+.tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:10px}
+.tbl{border-collapse:collapse;width:100%;font-size:14.5px}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl thead th{background:#7d1226;color:#fff;font-weight:600}
+.tbl th[scope=row]{background:var(--soft,#f0f3f8);width:30%;min-width:180px;font-weight:600}
+.tbl tr.tbl-sec td{background:#fbeef2;color:#7d1226;font-weight:700}
+.foot{max-width:900px;margin:20px auto 0;color:#9aa7b9;font-size:12.5px;text-align:center}
+/* lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(15,20,30,.88);display:none;align-items:center;justify-content:center;z-index:999;cursor:zoom-out;padding:24px}
+.lightbox img{max-width:94vw;max-height:92vh;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.lightbox.show{display:flex}
+.totop{position:fixed;right:24px;bottom:24px;width:46px;height:46px;border-radius:50%;background:var(--acc);color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 14px rgba(181,38,75,.4);opacity:0;pointer-events:none;transition:.2s;z-index:500}
+.totop.show{opacity:1;pointer-events:auto}
+/* responsive */
+@media(max-width:900px){
+  .sidebar{position:fixed;left:0;top:0;z-index:600;transform:translateX(-100%);transition:.25s;width:300px}
+  .sidebar.open{transform:none;box-shadow:0 0 30px rgba(0,0,0,.3)}
+  .burger{display:block;position:fixed;top:14px;left:14px;z-index:700;width:40px;height:40px;border-radius:8px;border:none;background:var(--acc);color:#fff;font-size:20px;cursor:pointer}
+  .content{padding:20px 16px}
+  .chapter{padding:20px 18px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-title">Инструкция пользователя</div>
+      <div class="brand-sub">Инструкция_АТЛ_дополненная</div>
+    </div>
+    <div class="searchbox"><input id="search" type="search" placeholder="Поиск по документу..."></div>
+    <nav class="tree" id="tree">
+      <div class="tree-root"><a href="#hero">▦ Содержание</a></div>
+      <ul><li class="toc-li"><details><summary><a href="#ch1">1. Перемещение панелей разделов и разделов</a></summary><ul class="sub"><li><a href="#ch1-1">Настройка отображения панелей</a></li><li><a href="#ch1-2">Настройка панели разделов</a></li><li><a href="#ch1-3">Настройка панели навигации и панели действий внутри раздела</a></li></ul></details></li>
+<li class="toc-li"><a href="#ch2">2. Справочник «Клиенты»</a></li>
+<li class="toc-li"><a href="#ch3">3. Справочник «Перевозчики»</a></li>
+<li class="toc-li"><details><summary><a href="#ch4">4. Шаблоны закрывающих документов</a></summary><ul class="sub"><li><a href="#ch4-1">Порядок настройки шаблона документооборота</a></li></ul></details></li>
+<li class="toc-li"><a href="#ch5">5. Справочник «Водители»</a></li>
+<li class="toc-li"><a href="#ch6">6. Регистрационные документы водителей</a></li>
+<li class="toc-li"><a href="#ch7">7. Топливные карты</a></li>
+<li class="toc-li"><details><summary><a href="#ch8">8. Справочник «Модели транспортных средств» и «Транспортные средства»</a></summary><ul class="sub"><li><a href="#ch8-1">Справочник Модели транспортных средств</a></li><li><a href="#ch8-2">Справочник «Транспортные средства»</a></li></ul></details></li>
+<li class="toc-li"><details><summary><a href="#ch9">9. Документ «Заявка на перевозку груза»</a></summary><ul class="sub"><li><a href="#ch9-1">Шапка документа</a></li><li><a href="#ch9-2">Блок «Клиент»</a></li><li><a href="#ch9-3">Блок «Груз»</a></li><li><a href="#ch9-4">Блок «Погрузка/Разгрузка»</a></li><li><a href="#ch9-5">Блок «Перевозчик, водитель, ТС»</a></li><li><a href="#ch9-6">Блок «Деньги»</a></li><li><a href="#ch9-7">Блок «Документооборот»</a></li><li><a href="#ch9-8">Создание документов из заявки</a></li><li><a href="#ch9-9">Блоки «Претензии входящие» и «Претензии исходящие»</a></li></ul></details></li>
+<li class="toc-li"><details><summary><a href="#ch10">10. Статусы заявки на перевозку груза</a></summary><ul class="sub"><li><a href="#ch10-1">Статусы заявки</a></li><li><a href="#ch10-2">Переходы статусов</a></li><li><a href="#ch10-3">Принцип изменения автоматических состояний</a></li><li><a href="#ch10-4">Где посмотреть и зафиксировать</a></li><li><a href="#ch10-5">Цвет кружка — обозначение состояния</a></li></ul></details></li>
+<li class="toc-li"><details><summary><a href="#ch11">11. Проведение документа «Заявка на перевозку груза»</a></summary><ul class="sub"><li><a href="#ch11-1">Кнопки на панели инструментов заявки</a></li><li><a href="#ch11-2">Что происходит при проведении заполненной заявки</a></li></ul></details></li>
+<li class="toc-li"><details><summary><a href="#ch12">12. Создание документов на основании заявки</a></summary><ul class="sub"><li><a href="#ch12-1">Кнопка «Печать» позволяет создать следующие печатные формы</a></li><li><a href="#ch12-2">Формирование закрывающих документов по списку заявок</a></li><li><a href="#ch12-3">Отчёт «Связанные документы»</a></li></ul></details></li></ul>
+    </nav>
+    <div class="sidebar-foot">
+      <button class="btn" onclick="expandAll(true)">Развернуть</button>
+      <button class="btn" onclick="expandAll(false)">Свернуть</button>
+    </div>
+  </aside>
+  <button class="burger" id="burger">☰</button>
+  <main class="content" id="content">
+    <header class="hero" id="doc">
+      <div class="hero-kicker">АТЛ · Автотранспортная логистика</div>
+      <h1>Пользовательская документация</h1>
+      <p class="lead">Интерактивная версия документа <b>Инструкция_АТЛ_дополненная.docx</b>. Переходите по дереву слева, ищите через поиск и поднимайтесь к оглавлению в любой момент.</p>
+      <div class="hero-meta"><span>12 разделов</span><span>253 фрагментов</span></div>
+    </header>
+    <div class="toc-block" id="toc-block">
+      <h2>Содержание</h2>
+      <ol><li class="toc-li"><details><summary><a href="#ch1">1. Перемещение панелей разделов и разделов</a></summary><ul class="sub"><li><a href="#ch1-1">Настройка отображения панелей</a></li><li><a href="#ch1-2">Настройка панели разделов</a></li><li><a href="#ch1-3">Настройка панели навигации и панели действий внутри раздела</a></li></ul></details></li>
+<li class="toc-li"><a href="#ch2">2. Справочник «Клиенты»</a></li>
+<li class="toc-li"><a href="#ch3">3. Справочник «Перевозчики»</a></li>
+<li class="toc-li"><details><summary><a href="#ch4">4. Шаблоны закрывающих документов</a></summary><ul class="sub"><li><a href="#ch4-1">Порядок настройки шаблона документооборота</a></li></ul></details></li>
+<li class="toc-li"><a href="#ch5">5. Справочник «Водители»</a></li>
+<li class="toc-li"><a href="#ch6">6. Регистрационные документы водителей</a></li>
+<li class="toc-li"><a href="#ch7">7. Топливные карты</a></li>
+<li class="toc-li"><details><summary><a href="#ch8">8. Справочник «Модели транспортных средств» и «Транспортные средства»</a></summary><ul class="sub"><li><a href="#ch8-1">Справочник Модели транспортных средств</a></li><li><a href="#ch8-2">Справочник «Транспортные средства»</a></li></ul></details></li>
+<li class="toc-li"><details><summary><a href="#ch9">9. Документ «Заявка на перевозку груза»</a></summary><ul class="sub"><li><a href="#ch9-1">Шапка документа</a></li><li><a href="#ch9-2">Блок «Клиент»</a></li><li><a href="#ch9-3">Блок «Груз»</a></li><li><a href="#ch9-4">Блок «Погрузка/Разгрузка»</a></li><li><a href="#ch9-5">Блок «Перевозчик, водитель, ТС»</a></li><li><a href="#ch9-6">Блок «Деньги»</a></li><li><a href="#ch9-7">Блок «Документооборот»</a></li><li><a href="#ch9-8">Создание документов из заявки</a></li><li><a href="#ch9-9">Блоки «Претензии входящие» и «Претензии исходящие»</a></li></ul></details></li>
+<li class="toc-li"><details><summary><a href="#ch10">10. Статусы заявки на перевозку груза</a></summary><ul class="sub"><li><a href="#ch10-1">Статусы заявки</a></li><li><a href="#ch10-2">Переходы статусов</a></li><li><a href="#ch10-3">Принцип изменения автоматических состояний</a></li><li><a href="#ch10-4">Где посмотреть и зафиксировать</a></li><li><a href="#ch10-5">Цвет кружка — обозначение состояния</a></li></ul></details></li>
+<li class="toc-li"><details><summary><a href="#ch11">11. Проведение документа «Заявка на перевозку груза»</a></summary><ul class="sub"><li><a href="#ch11-1">Кнопки на панели инструментов заявки</a></li><li><a href="#ch11-2">Что происходит при проведении заполненной заявки</a></li></ul></details></li>
+<li class="toc-li"><details><summary><a href="#ch12">12. Создание документов на основании заявки</a></summary><ul class="sub"><li><a href="#ch12-1">Кнопка «Печать» позволяет создать следующие печатные формы</a></li><li><a href="#ch12-2">Формирование закрывающих документов по списку заявок</a></li><li><a href="#ch12-3">Отчёт «Связанные документы»</a></li></ul></details></li></ol>
+    </div>
+    <section class="chapter" id="ch1"><div class="ch-head"><span class="cn">1</span><h2>Перемещение панелей разделов и разделов</h2></div><p class="p">Разделы программы (Главное, Логистика, CRM и другие) отображаются в панели разделов в левой части окна. Состав панелей, их отображение и порядок разделов можно настраивать под себя.</p>
+<p class="p">Раздел — это крупная функциональная область программы, объединяющая работу с данными одного направления (например, «Главное», «Логистика», «CRM»).</p>
+<p class="p">Панель разделов — это панель в левой части окна, на которой отображаются все разделы программы.</p>
+<p class="p">Панель навигации — это панель справа внутри раздела со списком команд и справочников этого раздела.</p><div class="sub" id="ch1-1"><h3>1.1 Настройка отображения панелей</h3><p class="p">В правой части, в верхнем углу интерфейса, откройте меню «Сервис и настройки» - «Настройки» и выберите команду «Настройка панели»;</p>
+<figure class="fig"><img src="media/image58.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">В открывшемся окне отображается актуальная настройка панелей, а также дополнительные панели для настройки отображения в интерфейсе.</p>
+<p class="p">Чтобы отобразить необходимую панель в интерфейсе – выберете панель вручную (на экране или из списка ниже) и переместите в удобное для вас положение.</p>
+<p class="p">Сохраните изменения кнопкой «Применить» и «ОК».</p>
+<figure class="fig"><img src="media/image59.png" loading="lazy" onclick="light(this)" alt=""></figure></div><div class="sub" id="ch1-2"><h3>1.2 Настройка панели разделов</h3><p class="p">В правой части, в верхнем углу интерфейса, откройте меню «Сервис и настройки» - «Настройки» и выберите команду «Настройка панели разделов»;</p>
+<figure class="fig"><img src="media/image60.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">В открывшемся окне отображается актуальная настройка панели разделов;</p>
+<p class="p">Чтобы отобразить или удалить определенный раздел – выберете необходимый раздел из списка и нажмите команду «Добавить» или «Удалить»;</p>
+<p class="p">Чтобы настроить отображение разделов (только картинка или картинка и название раздела), воспользуйтесь настройкой «Показывать» и выберете из списка вид отображения раздела;</p>
+<p class="p">Сохраните изменения кнопкой «ОК».</p>
+<figure class="fig"><img src="media/image61.png" loading="lazy" onclick="light(this)" alt=""></figure></div><div class="sub" id="ch1-3"><h3>1.3 Настройка панели навигации и панели действий внутри раздела</h3><p class="p">Внутри каждого раздела справа расположена панель навигации (список команд и справочников) и панель действий.</p>
+<figure class="fig"><img src="media/image62.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Для изменения состава и порядка команд выберите «Настройка панели навигации» либо «Настройка панели действий», с помощью команд «Добавить» и «Удалить» произведите настройку состава выбранного раздела.</p>
+<p class="p">Сохраните изменения кнопкой «ОК».</p>
+<figure class="fig"><img src="media/image63.png" loading="lazy" onclick="light(this)" alt=""></figure></div></section>
+<section class="chapter" id="ch2"><div class="ch-head"><span class="cn">2</span><h2>Справочник «Клиенты»</h2></div><figure class="fig"><img src="media/image1.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">В правой части списка отображается контактная информация контрагента. Прямо из панели можно позвонить клиенту, написать письмо или посмотреть адрес на карте.</p>
+<figure class="fig"><img src="media/image2.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Для каждого контрагента определяется тип организации (юридическое лицо, индивидуальный предприниматель, физическое лицо или государственный орган). Выбор типа влияет на состав реквизитов по ссылке в поле Юридические данные.</p>
+<p class="p">В группе Адреса, телефоны хранятся контактные данные контрагента, такие как телефон, e-mail, адрес доставки и фактический адрес. Прямо из карточки контрагента можно позвонить клиенту, написать ему в мессенджере или посмотреть адрес на карте. В группе реквизитов Контакты отображаются все контактные лица контрагента с адресами и телефонами. Здесь можно добавить новый контакт, связать контрагента с одним из существующих контактов или, наоборот, разорвать связь с контактом.</p>
+<figure class="fig"><img src="media/image3.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">В группах «Условия отказа от заявки» и «Документооборот» указываются данные, которые в дальнейшем будут перенесены в Заявку.</p>
+<figure class="fig"><img src="media/image4.png" loading="lazy" onclick="light(this)" alt=""></figure></section>
+<section class="chapter" id="ch3"><div class="ch-head"><span class="cn">3</span><h2>Справочник «Перевозчики»</h2></div><figure class="fig"><img src="media/image5.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Юридические данные, данные о банковских счетах, договорах, документообороте и т.д. заполняются по аналогии со справочником «Клиенты». Для перевозчиков добавляется возможность добавить водителей, транспортные средства, направления по кнопке «Добавить». Как создавать элементы этих справочников см. далее.</p>
+<figure class="fig"><img src="media/image4.png" loading="lazy" onclick="light(this)" alt=""></figure></section>
+<section class="chapter" id="ch4"><div class="ch-head"><span class="cn">4</span><h2>Шаблоны закрывающих документов</h2></div><p class="p">Шаблоны закрывающих документов используются в карточке Клиента или Перевозчика в разделе документооборот.</p>
+<figure class="fig"><img src="media/image6.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Шаблон необходимо настроить для каждого вида перевозки (собственным транспортом, привлеченным перевозчиком, по агентской схеме. Чтобы создать новый шаблон необходимо нажать «Показать все» - «Создать». В открывшемся окне задать наименование шаблону (то как этот шаблон будет отображаться в списке, для его быстрого поиска) и выбрать список документов. Документы с пометкой «Перевозчик» задаются только перевозчикам, с пометкой «Клиент» - клиентам. Документы с пометкой «Плательщик» участвуют в документообороте, если на форме заявки заполнен реквизит «Плательщик».</p>
+<figure class="fig"><img src="media/image7.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">В дальнейшем, при создании заявки эти документы будут отображаться в блоке «Документооборот».</p><div class="sub" id="ch4-1"><h3>4.1 Порядок настройки шаблона документооборота</h3><p class="p">Шаблоны документооборота настраиваются в карточке контрагента (клиента или перевозчика) в группе «Документооборот». Для того чтобы шаблон использовался при создании заявок, его необходимо указать в карточке клиента.</p>
+<p class="p">1. Откройте карточку клиента и в группе «Документооборот» нажмите «Показать все» — откроется окно со списком шаблонов документооборота.</p>
+<p class="p">2. Если нужного шаблона нет, нажмите «Создать» — откроется окно создания шаблона.</p>
+<p class="p">3. В карточке шаблона укажите наименование (произвольное, для удобного поиска в списке, например «Основной: акт, счёт, УПД») и добавьте строки в табличную часть «Виды документов» по кнопке «Добавить». В поле «Документ» выберите вид документа (например, Акт выполненных работ, Счёт на оплату, Счёт-фактура (УПД)). Документы с пометкой «Перевозчик» задаются только перевозчикам, с пометкой «Клиент» — клиентам, с пометкой «Плательщик» — участвуют в документообороте, если в заявке заполнен реквизит «Плательщик».</p>
+<p class="p">4. Запишите и закройте шаблон (кнопка «Записать»).</p>
+<p class="p">5. В карточке клиента выберите созданный шаблон в поле для соответствующего вида перевозки: собственный транспорт, привлечённый перевозчик или агентская схема. Для разных видов перевозки можно указать разные шаблоны.</p>
+<p class="p">6. После этого при создании заявки шаблон подставляется автоматически, документы из шаблона отображаются в блоке «Документооборот», а состав создаваемых документов и печатных форм формируется в соответствии с выбранным шаблоном.</p></div></section>
+<section class="chapter" id="ch5"><div class="ch-head"><span class="cn">5</span><h2>Справочник «Водители»</h2></div><figure class="fig"><img src="media/image8.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Справочник служит для хранения информации о привлечённых водителях и водителях собственной организации.</p>
+<figure class="fig"><img src="media/image9.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Реквизит</th><th>Заполнение</th></tr></thead><tbody><tr><th scope="row">Привлеченный</th><td>Поставить галочку, если это водитель сторонней организации</td></tr><tr><th scope="row">Физическое лицо</th><td>Ссылка на справочник Физические лица (подробнее см. далее). По кнопке Показать все необходимо выбрать существующее физическое лицо или создать новое</td></tr><tr><th scope="row">Фамилия, Имя, Отчество</th><td>Заполняются автоматически из справочника Физические лица</td></tr><tr><th scope="row">Кодовое имя</th><td>Краткое наименование водителя в программе</td></tr><tr><th scope="row">Перевозчик/Организация</th><td>Необходимо выбрать перевозчика, если стоит галочка Привлеченный или собственную организацию, если галочка не установлена</td></tr><tr><th scope="row">Контактный телефон</th><td>Указать контактный телефон водителя. Если их несколько можно добавить через «+ телефон»</td></tr><tr><th scope="row">Телефон для отслеживания</th><td>Телефон водителя для отслеживания</td></tr><tr><th scope="row">Прописка</th><td>Адрес по прописке водителя</td></tr><tr><th scope="row">Вкладка Регистрационные документы</th><td>Список всех регистрационных документов (ВУ, Паспорт, СНИЛС и т.д.). О заполнении документов см. далее</td></tr><tr><th scope="row">Вкладка Транспортные средства (ТС)</th><td>На вкладке указывается за каким ТС закреплен водитель</td></tr><tr><th scope="row">Вкладка Топливные карты</th><td>На вкладке указываются топливные карты, закрепленные за водителем</td></tr></tbody></table></div></section>
+<section class="chapter" id="ch6"><div class="ch-head"><span class="cn">6</span><h2>Регистрационные документы водителей</h2></div><p class="p">Чтобы добавить документы водителя, необходимо нажать Создать на вкладке Рег.документы</p>
+<figure class="fig"><img src="media/image10.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">В открывшемся окне заполнить реквизиты.</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Реквизит</th><th>Заполнение</th></tr></thead><tbody><tr><th scope="row">Физ.лицо</th><td>Элемент справочника Физические лица. Заполнится автоматически, если в карточке водителя, из которой создается документ, заполнено физическое лицо</td></tr><tr><th scope="row">Вид документа</th><td>Выбрать вид документа из перечислений (паспорт, СНИЛС, ВУ и т.д.). В зависимости от того, какой вид документа выбран, состав реквизитов на форме может быть разный. Например, для водительского удостоверения добавится реквизит Категория.</td></tr><tr><th scope="row">Серия, номер, дата выдачи, кем выдан</th><td>Необходимо заполнить, согласно данный на документах. Эти данные будут в дальнейшем использоваться в печатных формах. Например, СНИЛС водителя в путевом листе.</td></tr></tbody></table></div></section>
+<section class="chapter" id="ch7"><div class="ch-head"><span class="cn">7</span><h2>Топливные карты</h2></div><p class="p">Список всех топливных карт можно открыть через Логистика – Топливные карты.</p>
+<figure class="fig"><img src="media/image11.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Указать принадлежность за водителем можно как в самом справочнике Топливные карты, так и из карточки водителя.</p>
+<figure class="fig"><img src="media/image12.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">При создании топливной карты необходимо указать, наименование (например, номер и АЗС), номер топливной карты, кем она выдана (АЗС), до какого срока действует и является и она активной.</p>
+<figure class="fig"><img src="media/image13.png" loading="lazy" onclick="light(this)" alt=""></figure></section>
+<section class="chapter" id="ch8"><div class="ch-head"><span class="cn">8</span><h2>Справочник «Модели транспортных средств» и «Транспортные средства»</h2></div><figure class="fig"><img src="media/image14.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Перед заполнением справочника Транспортных средств необходимо заполнить справочник Моделей транспортных средств. Данные, заполненные для модели, автоматически будут перенесены в карточку ТС.</p><div class="sub" id="ch8-1"><h3>8.1 Справочник Модели транспортных средств</h3><figure class="fig"><img src="media/image15.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Реквизит</th><th>Заполнение</th></tr></thead><tbody><tr><th scope="row">Наименование</th><td>Произвольное наименование. Например, марка и модель</td></tr><tr><th scope="row">Тип</th><td>Выбор из значений Тягач/Прицеп/Грузовик</td></tr><tr><th scope="row">Марка</th><td>Марка модели</td></tr><tr><th scope="row">Грузоподъёмность и объем кузова</th><td>Заполняются только для грузовиков и прицепов</td></tr><tr><th scope="row">Способ погрузки</th><td>Произвольная комбинация из различных способов погрузки</td></tr></tbody></table></div></div><div class="sub" id="ch8-2"><h3>8.2 Справочник «Транспортные средства»</h3><figure class="fig"><img src="media/image16.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Реквизит</th><th>Заполнение</th></tr></thead><tbody><tr><th scope="row">Привлеченное/Собственное</th><td>Указывает на то, является ли ТС собственностью нашей организации или собственностью перевозчика</td></tr><tr><th scope="row">Перевозчик/Организация</th><td>Указывается наша организация или контрагент (в зависимости от переключателя Привлеченное/Собственное)</td></tr><tr><th scope="row">Модель ТС</th><td>Обязательное поле для заполнения. После выбора модели реквизиты ТС будут заполнены в соответствии с моделью.</td></tr><tr><th scope="row">Наименование</th><td>Формируется автоматически при записи карточки ТС как Гос.номер + наименование модели</td></tr><tr><th scope="row">Гос.номер</th><td>Государственный номер ТС</td></tr><tr><th scope="row">Грузоподъемность, объем кузова, способы погрузки</th><td>Заполняются автоматически из модели ТС, но при необходимости могут быть изменены для конкретного ТС</td></tr><tr><th scope="row">Вкладка Состав</th><td>Указывается сцепка тягач + прицеп. Если заполнено, при выборе тягача в заявке будет автоматически подставлен соответствующий прицеп</td></tr><tr><th scope="row">Вкладка Экипаж</th><td>Указываются водители, которые закреплены за ТС</td></tr></tbody></table></div>
+<p class="p">По гиперссылке Файлы будет открыт перечень всех присоединённых файлов. Здесь можно прикреплять сканы регистрационных документов и т.д.</p>
+<figure class="fig"><img src="media/image17.png" loading="lazy" onclick="light(this)" alt=""></figure></div></section>
+<section class="chapter" id="ch9"><div class="ch-head"><span class="cn">9</span><h2>Документ «Заявка на перевозку груза»</h2></div><figure class="fig"><img src="media/image18.png" loading="lazy" onclick="light(this)" alt=""></figure><div class="sub" id="ch9-1"><h3>9.1 Шапка документа</h3><figure class="fig"><img src="media/image19.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Реквизит</th><th>Заполнение</th></tr></thead><tbody><tr><th scope="row">Дата и номер</th><td>Заполняются автоматически при записи или проведении документа</td></tr><tr><th scope="row">Организация</th><td>Собственная организация, от которой выставляются услуги</td></tr><tr><th scope="row">Плательщик</th><td>Необязательно для заполнения. Собственная организация, которая осуществляет оплату перевозчику</td></tr><tr><th scope="row">Подразделение</th><td>Подразделение собственной организации. Используется как дополнительная аналитика</td></tr><tr><th scope="row">Статус</th><td>Может принимать значения Черновик (когда документ только записан, но не проведен. Не учувствует в учете), Активна (после проведения документа), Закрыта (статус устанавливается вручную после закрытия заявки), Отказ (устанавливается вручную, если произошел отказ от заявки)</td></tr><tr><th scope="row">Состояние</th><td>Устанавливается только вручную. Может принимать значения Идет погрузка, Погружен, В пути, Идет выгрузка, Выгружен</td></tr><tr><th scope="row">Переключатель Привлеченное/Собственное</th><td>Для выбора перевозки. Влияет на состав реквизитов.</td></tr><tr><th scope="row">Кнопки</th><td>Позволяют свернуть или развернуть все блоки заявки</td></tr></tbody></table></div></div><div class="sub" id="ch9-2"><h3>9.2 Блок «Клиент»</h3><figure class="fig"><img src="media/image21.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Необходимо выбрать клиента из справочника. Остальные реквизиты будут заполнены автоматические (если они заполнены в карточке клиента). Если необходимо добавить дополнительный контакт – нажать «+ контакт». Введенные данные будут сохранены в карточку клиента.</p>
+<p class="p">При нажатии на кнопку напротив номера телефона, будет открыт браузер с Telegram или WhatsApp с чатом выбранного номера.</p>
+<figure class="fig"><img src="media/image22.png" loading="lazy" onclick="light(this)" alt=""></figure></div><div class="sub" id="ch9-3"><h3>9.3 Блок «Груз»</h3><figure class="fig"><img src="media/image23.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">В табличную часть необходимо добавить описание груза. Наименование, Вид упаковки, количество грузовых мест, весогабаритные характеристики.</p>
+<p class="p">Ниже расположены реквизиты для указания температурного режима, способа погрузки и специальных признаков ТС.</p></div><div class="sub" id="ch9-4"><h3>9.4 Блок «Погрузка/Разгрузка»</h3><figure class="fig"><img src="media/image24.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Адрес погрузки и адрес разгрузки заполняется автоматически из карточки клиента из соответствующих реквизитов. При необходимости добавить дополнительные пункты, нажмите «+ адрес».</p>
+<p class="p">При нажатии на кнопку рядом с адресом, будет открыт браузер и соответствующий адрес на карте.</p>
+<figure class="fig"><img src="media/image25.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">В полях Контактное лицо, можно выбрать контактное лицо контрагента. Также необходимо указать даты и время погрузки и выгрузки. При необходимости можно указать произвольный текстовый комментарий.</p></div><div class="sub" id="ch9-5"><h3>9.5 Блок «Перевозчик, водитель, ТС»</h3><figure class="fig"><img src="media/image26.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Реквизиты, которые отражаются в этом блоке, зависят от того, в каком положении установлен переключатель Привлеченное/Собственное.</p>
+<p class="p">Если переключатель установлен в положение Привлеченное, необходимо указать контрагента перевозчика, его водителя, грузовик или тягач и прицеп.</p>
+<p class="p">Внимание! Реквизит «Прицеп» в блоке «Перевозчик, водитель, ТС» доступен для заполнения только в том случае, если прицеп указан в карточке водителя и привязан к организации.</p>
+<p class="p">Если переключатель установлен в Собственное, необходимо указать только водителя и ТС.</p></div><div class="sub" id="ch9-6"><h3>9.6 Блок «Деньги»</h3><figure class="fig"><img src="media/image27.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Реквизитный состав блока зависит от переключателя Привлеченное/Собственное.</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Реквизит</th><th>Заполнение</th></tr></thead><tbody><tr class="tbl-sec"><td colspan="2">Первый столбец</td></tr><tr><th scope="row">Стоимость перевозки</th><td>Общая сумма, выставляемая клиенту</td></tr><tr><th scope="row">Дата оплаты клиента</th><td>Планируемая дата оплаты полной суммы клиентом</td></tr><tr><th scope="row">Предоплата</th><td>Сумма предоплаты от клиента</td></tr><tr><th scope="row">Планируемая дата предоплаты</th><td>Планируемая дата внесения предоплаты клиентом</td></tr><tr><th scope="row">Задолженность</th><td>Общая задолженность клиента перед нашей организацией. Заполняется автоматически</td></tr><tr><th scope="row">НДС клиента</th><td>Заполняется автоматически из карточки клиента</td></tr><tr class="tbl-sec"><td colspan="2">Второй столбец (если переключатель установлен как Привлеченное)</td></tr><tr><th scope="row">Оплата перевозчику</th><td>Общая сумма оплаты перевозчику</td></tr><tr><th scope="row">Планируемая дата оплаты</th><td>Планируемая дата оплаты полной суммы перевозчику</td></tr><tr><th scope="row">Предоплата</th><td>Сумма предоплаты перевозчику</td></tr><tr><th scope="row">Планируемая дата предоплаты</th><td>Планируемая дата предоплаты перевозчику</td></tr><tr><th scope="row">Задолженность</th><td>Общая наша задолженность перед перевозчиком. Заполняется автоматически</td></tr><tr><th scope="row">НДС перевозчика</th><td>Заполняется автоматически из карточки перевозчика</td></tr><tr><th scope="row">Срочная оплата</th><td>Если галочка установлена, попадает в реестр срочных платежей</td></tr><tr><th scope="row">ГСМ</th><td>Оплата перевозчику за ГСМ</td></tr><tr><th scope="row">Планируемая дата оплаты ГСМ</th><td>Планируемая дата оплаты ГСМ</td></tr><tr class="tbl-sec"><td colspan="2">Третий столбец</td></tr><tr><th scope="row">Стоимость, км</th><td>Рассчитывается автоматически в зависимости от стоимости перевозки и оплаты перевозчику</td></tr><tr><th scope="row">Маржа, руб</th><td>Рассчитывается автоматически в зависимости от стоимости перевозки и оплаты перевозчику</td></tr><tr><th scope="row">Маржа, %</th><td>Рассчитывается автоматически в зависимости от стоимости перевозки и оплаты перевозчику</td></tr><tr><th scope="row">Норма маржи, руб</th><td>Рассчитывается автоматически в зависимости от стоимости перевозки, оплаты перевозчику и нормы маржи, установленной в карточке клиента</td></tr><tr><th scope="row">Норма маржи, %</th><td>Заполняется автоматически из карточки клиента. Если норма маржи выше, чем фактическая, то такая заявка не может быть проведена.</td></tr></tbody></table></div></div><div class="sub" id="ch9-7"><h3>9.7 Блок «Документооборот»</h3><p class="p strong">В блоке документооборот содержится информация о документах согласно настроенным шаблонам, в карточке клиента и перевозчика.</p>
+<figure class="fig"><img src="media/image28.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Реквизит</th><th>Заполнение</th></tr></thead><tbody><tr><th scope="row">Агентская схема</th><td>Признак проставляется вручную, если перевозка осуществляется по агентской схеме. Если стоит галочка, то будет использоваться тот шаблон документооборота, который указан в карточке клиента и перевозчика для агентской схемы</td></tr><tr><th scope="row">Срок доставки почты</th><td>Рассчитывается автоматически исходя из текущей даты и срока на доставку почты, указанного в карточке контрагента</td></tr><tr><th scope="row">Вид</th><td>Вид созданного документа</td></tr><tr><th scope="row">Отправитель</th><td>Кто формирует документ. Может принимать значение нашей организации, клиента или перевозчика</td></tr><tr><th scope="row">Получатель</th><td>Тот, кому адресован документ. Может принимать значение нашей организации, клиента или перевозчика</td></tr><tr><th scope="row">Дата</th><td>Дата создания документа</td></tr><tr><th scope="row">Создан</th><td>Признак тот, что документ создан, устанавливается автоматически</td></tr><tr><th scope="row">Отправлен</th><td>Признак того, что документ отправлен, устанавливается вручную</td></tr><tr><th scope="row">Файл</th><td>При нажатии на гиперссылку можно прикрепить документ (файл) или просмотреть ранее прикрепленные</td></tr></tbody></table></div></div><div class="sub" id="ch9-8"><h3>9.8 Создание документов из заявки</h3><p class="p strong">Пакетное оформление документов. Кнопка «Оформить документы» в форме заявки формирует пакет документов по виду перевозки:</p>
+<p class="p">Состав создаваемых документов определяется шаблонами документооборота, указанными в карточке клиента (см. раздел «Шаблоны закрывающих документов»).</p>
+<p class="p">Привлеченное;</p>
+<p class="p">Собственное.</p>
+<figure class="fig"><img src="media/image41.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image42.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Если указан вид «Привлеченное»: создается пакет для клиента + пакет для перевозчика.</p>
+<figure class="fig"><img src="media/image43.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image44.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image45.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image46.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image47.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image48.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image38.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image49.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Если указан вид «Собственное»: создается пакет для клиента.</p>
+<figure class="fig"><img src="media/image50.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image51.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image52.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image53.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p strong">Созданным документам автоматически присваиваются номера, и они сразу проводятся. Команда «Печать» открывает предпросмотр всех печатных форм с возможностью сохранения в PDF/Excel/Word и отправки по электронной почте.</p>
+<figure class="fig"><img src="media/image54.png" loading="lazy" onclick="light(this)" alt=""></figure></div><div class="sub" id="ch9-9"><h3>9.9 Блоки «Претензии входящие» и «Претензии исходящие»</h3><p class="p strong">Блок предназначен для фиксации претензий как входящих, так и исходящих.</p>
+<figure class="fig"><img src="media/image29.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p strong">Реквизит «Происшествия» заполняется из одноименного справочника. Для того, чтобы открыть весь список происшествий необходимо нажать «Показать все». Если в списке нет нужного происшествия, по кнопке «Создать» открывается форма создания нового элемента.</p>
+<figure class="fig"><img src="media/image30.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Реквизит</th><th>Заполнение</th></tr></thead><tbody><tr><th scope="row">Номер</th><td>Заполнить номер входящей претензии от клиента или перевозчика</td></tr><tr><th scope="row">Дата</th><td>Выбрать дату происшествия</td></tr><tr><th scope="row">Происшествие</th><td>Заполняется из одноименного справочника</td></tr><tr><th scope="row">Штраф</th><td>Заполнить сумму штрафа (входящего или исходящего)</td></tr></tbody></table></div></div></section>
+<section class="chapter" id="ch10"><div class="ch-head"><span class="cn">10</span><h2>Статусы заявки на перевозку груза</h2></div><p class="p strong">У каждой заявки на перевозку груза есть два независимых показателя: «Статус» и «Состояние».</p>
+<p class="p strong">«Статус» отражает этап жизненного цикла документа, «Состояние» — текущую фазу выполнения перевозки.</p><div class="sub" id="ch10-1"><h3>10.1 Статусы заявки</h3><p class="p">Черновик — заявка сохранена (кнопка «Записать»), но не проведена. Не влияет на учёт, доступна для дальнейшего редактирования.</p>
+<p class="p">Активна — заявка проведена (кнопка «Провести» или «Провести и закрыть»). Участвует в учёте, по ней выполняются перевозка и формируются движения.</p>
+<p class="p">Закрыта — заявка завершена. Проставляется вручную менеджером-логистом после проверки всех документов и взаиморасчётов.</p>
+<p class="p">Отказ — заявка отклонена. Проставляется вручную менеджером-логистом. При проведении заявки со статусом «Отказ» формируются только записи по статусу заявки (используются в отчётах для подсчёта отказных заявок); на взаиморасчёты и финансовые показатели такие записи не влияют.</p></div><div class="sub" id="ch10-2"><h3>10.2 Переходы статусов</h3><p class="p">Кнопка «Записать» — заявка переходит в статус «Черновик».</p>
+<p class="p">Кнопка «Провести» — при проведении из статуса «Черновик» заявка автоматически переходит в статус «Активна».</p>
+<p class="p">Команда «Отмена проведения» — заявка возвращается в статус «Черновик».</p>
+<p class="p">Статусы «Закрыта» и «Отказ» устанавливаются вручную менеджером-логистом.</p>
+<figure class="fig"><img src="media/image32.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p strong">Состояние перевозки (проставляется вручную по ходу выполнения): «Идет погрузка» → «Погружен» → «В пути» → «Идет выгрузка» → «Выгружен».</p>
+<figure class="fig"><img src="media/image33.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p strong">Автоматические состояния (рассчитываются системой и отображаются с цветовой индикацией):</p>
+<p class="p">Документооборот с перевозчиком:</p>
+<p class="p">«Ожидаем документы» (красный) — пока есть входящие документы без признака «Получен» (документы перевозчика ещё не получены).</p>
+<p class="p">«Завершено» (зелёный) — когда у всех входящих документов установлен признак «Получен».</p>
+<p class="p">Отображается только для привлечённого транспорта.</p>
+<p class="p">Взаиморасчеты с перевозчиком:</p>
+<p class="p">Ожидаем счет — счёт на оплату в табличной части «Входящие» блока «Документооборот» не получен.</p>
+<p class="p">Не оплачено — счёт получен, но оплата перевозчику не поступила.</p>
+<p class="p">Частично оплачено — поступила часть оплаты перевозчику (промежуточное состояние).</p>
+<p class="p">Оплачено — оплата перевозчику поступила полностью.</p>
+<p class="p">Состояние рассчитывается автоматически на основании признаков документов в табличной части «Входящие» и поступивших оплат перевозчику. Отображается только для привлечённого транспорта.</p>
+<p class="p">Документооборот с клиентом:</p>
+<p class="p">«Ожидается отправка» (красный) — пока есть исходящие документы без признака «Отправлен» (документы клиенту ещё не отправлены).</p>
+<p class="p">«Завершено» (зелёный) — когда все исходящие документы отправлены.</p>
+<p class="p">Взаиморасчеты с клиентом:</p>
+<p class="p">Ожидаем документы перевозчика — ожидается получение документов от перевозчика.</p>
+<p class="p">Нужен счет — документы получены, но счёт клиенту ещё не выставлен.</p>
+<p class="p">Не оплачено — счёт клиенту выставлен, но оплата не поступила.</p>
+<p class="p">Частично оплачено — поступила часть оплаты от клиента (промежуточное состояние).</p>
+<p class="p">Оплачено — оплата клиента поступила полностью.</p>
+<p class="p">Состояние рассчитывается автоматически на основании поступивших оплат от клиента и признаков документов в табличной части «Исходящие».</p>
+<p class="p">Форма списка заявок на перевозку груза содержит вкладки:</p>
+<p class="p">«Активные» (все заявки, кроме статусов «Закрыта» и «Черновик»);</p>
+<p class="p">«Черновики» (статус «Черновик»);</p>
+<p class="p">«Архив» (закрытые и отклонённые заявки). Доступны фильтры для проведения отбора заявок.</p></div><div class="sub" id="ch10-3"><h3>10.3 Принцип изменения автоматических состояний</h3><p class="p">Автоматические состояния рассчитываются системой и пересчитываются автоматически при проведении заявки, а также при изменении исходных данных: признаков документов в табличных частях блока «Документооборот» («Получен»/«Отправлен») и поступления оплат. Вручную автоматические состояния не редактируются.</p></div><div class="sub" id="ch10-4"><h3>10.4 Где посмотреть и зафиксировать</h3><p class="p">Состояния отображаются в карточке заявки (блоки «Документооборот» и «Деньги»), а в форме списка заявок — отдельными колонками: «Состояние документооборота с перевозчиком», «Состояние взаиморасчетов с перевозчиком», «Состояние документооборота с клиентом», «Состояние взаиморасчетов с клиентом».</p></div><div class="sub" id="ch10-5"><h3>10.5 Цвет кружка — обозначение состояния</h3><p class="p strong">В форме списка и в заявке каждое автоматическое состояние отображается цветным кружком: красный — состояние требует внимания (ожидание документов, счёта или оплаты; не оплачено; нужен счёт); зелёный — состояние завершено или оплачено («Завершено», «Оплачено»); жёлтый — промежуточное состояние («Частично оплачено»).</p>
+<p class="p">Форма списка заявок на перевозку груза содержит вкладки:</p>
+<p class="p">«Активные» (все заявки, кроме статусов «Закрыта» и «Черновик»);</p>
+<p class="p">«Черновики» (статус «Черновик»);</p>
+<p class="p">«Архив» (закрытые и отклонённые заявки). Доступны фильтры для проведения отбора заявок.</p>
+<figure class="fig"><img src="media/image34.png" loading="lazy" onclick="light(this)" alt=""></figure></div></section>
+<section class="chapter" id="ch11"><div class="ch-head"><span class="cn">11</span><h2>Проведение документа «Заявка на перевозку груза»</h2></div><p class="p strong">Проведение — это «утверждение» документа в программе 1С. Непроведённый документ не имеет силы и не влияет на учёт.</p><div class="sub" id="ch11-1"><h3>11.1 Кнопки на панели инструментов заявки</h3><p class="p">«Записать» — сохраняет документ в статусе «Черновик» (присваиваются номер и дата, на учёт не влияет).</p>
+<p class="p">«Провести» — проводит документ, форма остаётся открытой.</p>
+<p class="p">«Провести и закрыть» — проводит документ и закрывает форму (горячие клавиши Ctrl+Enter).</p></div><div class="sub" id="ch11-2"><h3>11.2 Что происходит при проведении заполненной заявки</h3><p class="p">Статус автоматически становится «Активна» (если заявка проводилась из статуса «Черновик»).</p>
+<p class="p">Выполняется проверка обязательных полей:</p>
+<p class="p">Клиент;</p>
+<p class="p">Организация (заполняется автоматически);</p>
+<p class="p">Адрес погрузки и адрес разгрузки;</p>
+<p class="p">Дата и время погрузки;</p>
+<p class="p">Дата и время разгрузки;</p>
+<p class="p">Контактное лицо и телефон по погрузке и по разгрузке;</p>
+<p class="p">ФИО водителя (табличная часть «Водители»);</p>
+<p class="p">Перевозчик (если перевозка с привлечённым транспортом).</p>
+<p class="p">Выполняется проверка маржинальности: если расчётная маржа меньше нормы маржи, проведение запрещается и выводится сообщение «Рассчитанная маржинальная прибыль меньше, чем плановая. Для проведения заявки с текущим показателем маржинальной, обратитесь к ответственному лицу».</p>
+<p class="p">В этом случае необходимо обратиться к ответственному лицу (для роли «Директор» проверка не применяется).</p>
+<figure class="fig"><img src="media/image35.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Заполняются условия и плановые даты оплаты из карточек клиента и перевозчика.</p>
+<p class="p strong">Внимание! Для автоматического заполнения условий и плановой даты оплаты, необходимо заполнить справочник «Условие платежа» в карточке клиента и перевозчика.</p>
+<figure class="fig"><img src="media/image36.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Обновляется состояние документооборота и взаиморасчетов с клиентом и перевозчиком (Если были заполнены данные в разделах «Деньги» и «Документооборот».</p>
+<figure class="fig"><img src="media/image37.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p">Автоматически формируются технические документы «Заказ покупателя» и «Заказ поставщику».</p>
+<figure class="fig"><img src="media/image38.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image39.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<p class="p strong">Проведение заявки со статусом «Отказ»: формируются только записи по статусу заявки (используются в отчётах для подсчёта отказных заявок); на взаиморасчёты и финансовые показатели такие записи не влияют.</p>
+<p class="p strong">Отмена проведения: документ возвращается в статус «Черновик», созданные движения очищаются.</p></div></section>
+<section class="chapter" id="ch12"><div class="ch-head"><span class="cn">12</span><h2>Создание документов на основании заявки</h2></div><p class="p">Документы создаются на основании заявки в информационной базе: появляются в списках документов и в блоке «Документооборот» заявки, получают номера, проводятся и связываются с заявкой. Печатные формы — это печатные представления данных заявки: они формируются командой «Печать», не создают документов в базе и не влияют на учёт. Состав создаваемых документов и перечень печатных форм определяются шаблонами документооборота, указанными в карточке клиента (см. раздел «Шаблоны закрывающих документов»).</p><div class="sub" id="ch12-1"><h3>12.1 Кнопка «Печать» позволяет создать следующие печатные формы</h3><p class="p">Экспедиторская расписка;</p>
+<p class="p">Договор с перевозчиком;</p>
+<p class="p">Транспортная накладная;</p>
+<p class="p">Заявка с клиентом;</p>
+<p class="p">Заявка на перевозку груза (перевозчику);</p>
+<p class="p">Заявка на перевозку груза (факсимиле).</p>
+<p class="p">Печатные формы создаются для соблюдения регламента и не влияют на учёт.</p>
+<p class="p">Перечень печатных форм определяется шаблонами документооборота, настроенными в карточке клиента (см. раздел «Шаблоны закрывающих документов»).</p>
+<figure class="fig"><img src="media/image40.png" loading="lazy" onclick="light(this)" alt=""></figure></div><div class="sub" id="ch12-2"><h3>12.2 Формирование закрывающих документов по списку заявок</h3><p class="p strong">В форме списка заявок доступна команда «Сформировать закрывающие документы» для выделенных заявок. Участвуют только заявки со статусом «Активна». Состав формируемых документов определяется шаблонами документооборота, указанными в карточке клиента. Формируются:</p>
+<p class="p">УПД клиенту;</p>
+<p class="p">Счет на оплату для клиента;</p>
+<p class="p">УПД перевозчику;</p>
+<p class="p">Счет на оплату перевозчику.</p>
+<p class="p strong">По нескольким заявкам одного клиента формируется одна общая УПД и один общий счёт. По перевозчику — своя УПД и счёт по каждой заявке.</p>
+<figure class="fig"><img src="media/image55.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image56.png" loading="lazy" onclick="light(this)" alt=""></figure>
+<figure class="fig"><img src="media/image57.png" loading="lazy" onclick="light(this)" alt=""></figure></div><div class="sub" id="ch12-3"><h3>12.3 Отчёт «Связанные документы»</h3><p class="p strong">Отчёт показывает всю цепочку документов, созданных на основании заявки:</p>
+<figure class="fig"><img src="media/image49.png" loading="lazy" onclick="light(this)" alt=""></figure></div></section>
+    
+  </main>
+</div>
+<div class="lightbox" id="lightbox" onclick="closeLight(event)"><img id="lbImg" src="" alt=""></div>
+<button class="totop" id="totop" onclick="toTop()">↑</button>
+<script>
+const sidebar=document.getElementById('sidebar');
+const burger=document.getElementById('burger');
+const content=document.getElementById('content');
+const search=document.getElementById('search');
+const totop=document.getElementById('totop');
+
+burger.addEventListener('click',()=>sidebar.classList.toggle('open'));
+document.addEventListener('click',e=>{
+  if(!sidebar.contains(e.target)&&!burger.contains(e.target)) sidebar.classList.remove('open');
+});
+
+function expandAll(open){
+  document.querySelectorAll('#tree details').forEach(d=>d.open=!!open);
+}
+function toTop(){window.scrollTo({top:0,behavior:'smooth'})}
+window.addEventListener('scroll',()=>{
+  totop.classList.toggle('show',window.scrollY>500);
+  highlightToc();
+});
+
+function light(img){
+  document.getElementById('lbImg').src=img.src;
+  document.getElementById('lightbox').classList.add('show');
+}
+function closeLight(e){document.getElementById('lightbox').classList.remove('show')}
+
+function highlightToc(){
+  const h=window.innerHeight*0.3;
+  let current=null;
+  document.querySelectorAll('section.chapter').forEach(s=>{
+    if(s.getBoundingClientRect().top<=h) current=s.id;
+  });
+  document.querySelectorAll('#tree a,#toc-block a').forEach(a=>a.classList.remove('active'));
+  if(current){
+    document.querySelectorAll(`#tree a[href="#${current}"],#toc-block a[href="#${current}"]`).forEach(a=>a.classList.add('active'));
+  }
+}
+
+search.addEventListener('input',()=>{
+  const q=search.value.trim().toLowerCase();
+  if(!q){
+    document.querySelectorAll('mark').forEach(m=>{
+      const p=m.parentNode;p.innerHTML=p.textContent;p.classList.remove('hl');
+    });
+    document.querySelectorAll('section.chapter').forEach(s=>s.style.display='');
+    document.querySelectorAll('.sub').forEach(s=>s.style.display='');
+    return;
+  }
+  document.querySelectorAll('section.chapter').forEach(s=>{
+    const text=s.textContent.toLowerCase();
+    s.style.display=text.includes(q)?'':'none';
+  });
+  document.querySelectorAll('.sub').forEach(s=>{
+    const text=s.textContent.toLowerCase();
+    s.style.display=text.includes(q)?'':'none';
+  });
+  document.querySelectorAll('#tree a,#toc-block a').forEach(a=>{
+    const target=document.querySelector(a.getAttribute('href'));
+    a.style.display=(target&&target.style.display==='none')?'none':'';
+  });
+});
+</script>
+</body>
+</html>
